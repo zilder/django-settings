@@ -16,7 +16,7 @@ class BaseSetting(models.Model):
 
 
 class String(BaseSetting):
-    value = models.CharField(max_length=254)
+    value = models.TextField()
 
 
 class Integer(BaseSetting):
