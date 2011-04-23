@@ -38,7 +38,7 @@ class SettingManager(models.Manager):
         queryset = self.filter(name=name)
         return queryset.exists() and queryset[0].setting_object
 
-    def set_value(self, name, SettingClass, value):
+    def set_value(self, name, SettingClass, value, description=None):
         setting = Setting(name=name)
 
         if self.value_object_exists(name):
@@ -47,6 +47,8 @@ class SettingManager(models.Manager):
             setting_object.delete()
 
         setting.setting_object = SettingClass.objects.create(value=value)
+        if description:
+            setting.description = description
         setting.save()
         return setting
 

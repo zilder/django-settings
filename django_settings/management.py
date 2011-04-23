@@ -9,12 +9,16 @@ DEFAULT_SETTINGS = getattr(settings, 'DJANGO_SETTINGS', {})
 
 
 def initialize_data(sender, **kwargs):
-    for name, type_name_and_value in DEFAULT_SETTINGS.items():
-        type_name, value = type_name_and_value
+    for name, setting_tuple in DEFAULT_SETTINGS.items():
+        try:
+            type_name, value, description = setting_tuple
+        except ValueError:
+            type_name, value = setting_tuple
+            description = ''
         SettingClass = ContentType.objects.get(app_label='django_settings', model=type_name.lower()).model_class()
 
         if not models.Setting.objects.value_object_exists(name):
-            models.Setting.objects.set_value(name, SettingClass, value)
+            models.Setting.objects.set_value(name, SettingClass, value, description)
 
 
 def post_migrate_listener(sender, **kwargs):
