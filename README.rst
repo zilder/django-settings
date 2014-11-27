@@ -20,6 +20,9 @@ API
   # setting values
   models.Setting.objects.set_value('admin_email', models.String, 'admin@admin.com')
 
+  # you also can set title for setting
+  models.Setting.objects.set_value('max_filesize', models.Integer, '1024', 'Max file size')
+
   # checking if value exists
   models.Setting.objects.value_object_exists('admin_email')
 
@@ -31,7 +34,7 @@ There is ability to setup some defaults via project settings.py file:
 
    DJANGO_SETTINGS = {
       'application_limit': ('Integer', 2),
-      'admin_email': ('String', 'admin@mail.com'),
+      'admin_email': ('String', 'admin@mail.com', 'Admin Email'),
    }
 
 
