@@ -37,6 +37,9 @@ There is ability to setup some defaults via project settings.py file:
       'admin_email': ('String', 'admin@mail.com', 'Admin Email'),
    }
 
+   # name of setting set for settings that have no one
+   DJANGO_SETTINGS_UNALLOCATED_SET = 'Unallocated'
+
 
 
 Settings types 

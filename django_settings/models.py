@@ -36,8 +36,10 @@ class SettingManager(models.Manager):
         queryset = self.filter(name=name)
         return queryset.exists() and queryset[0].setting_object
 
-    def set_value(self, name, SettingClass, value, title=None):
-        setting = Setting(name=name, title=title or name)
+    def set_value(self, name, SettingClass, value, title=None,
+                  setting_set=None):
+        setting = Setting(name=name, title=title or name,
+                          setting_set=setting_set)
 
         if self.value_object_exists(name):
             setting = self.get(name=name)
@@ -48,6 +50,18 @@ class SettingManager(models.Manager):
                                              .create(value=value)
         setting.save()
         return setting
+
+
+class SettingSet(models.Model):
+    class Meta:
+        verbose_name = _('Setting set')
+        verbose_name_plural = _('Setting sets')
+
+    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.title
 
 
 class Setting(models.Model):
@@ -63,3 +77,5 @@ class Setting(models.Model):
 
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
+
+    setting_set = models.ForeignKey(SettingSet, related_name='settings', blank=True, null=True)
